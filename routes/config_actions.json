@@ -1,0 +1,6 @@
+{
+    "GET/" : {"controler": "index"},
+    "GET/index" : {"controler": "index" },
+    "GET/countriesSQL" : {"controler" : "selectAllSQL","view":"countriesSQL","sql_query":"SELECT * FROM countries"}
+        
+}
