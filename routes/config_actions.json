@@ -1,6 +1,9 @@
 {
     "GET/" : {"controler": "index"},
     "GET/index" : {"controler": "index" },
-    "GET/countriesSQL" : {"controler" : "selectAllSQL","view":"countriesSQL","sql_query":"SELECT * FROM countries"}
+    "GET/countriesSQL" : {"controler" : "selectAllSQL","view":"countriesSQL","sql_query":"SELECT * FROM countries"},
+    "GET/companiesSQL" : {"controler" : "selectAllSQL","view":"companiesSQL","sql_query":"SELECT * FROM companies"},
+    "GET/formCompanySQL" : {"controler" : "formCompanySQL","view":"formCompanySQL","sql_query":"SELECT * FROM companies WHERE id="}
+
         
 }
