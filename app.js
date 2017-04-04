@@ -6,13 +6,39 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs =require('fs');
 
+
+///SEQUELIZE
+GLOBAL.db={};
 var Sequelize =require('sequelize');
+db.Sequelize=Sequelize;
 //Configuration des paramétres de la connexion
-GLOBAL.sequelize = new Sequelize('countries','node','@postgres!40',{
+GLOBAL.sequelize = new Sequelize('countries','node','@postgres40',{
 	host:'localhost',
 	dialect:'postgres',
+	define: {
+    timestamps: false  // I don't want timestamp fields by default
+	},
 	pool:{max:5,min:0,idle:10000}
 });
+db.sequelize=sequelize;
+GLOBAL.modelsSeq={};
+
+// Loader Sequelize models into GLOBAL.modelsSeq
+fs.readdirSync(__dirname+'/models')
+	.filter(function(file){
+		return (file.indexOf(".") !== 0);
+		}) // on filtre les fichiers, ils doivent contenir un point (.js)
+	.forEach(function(file){
+		var model= GLOBAL.sequelize.import(path.join(__dirname + '/models',file));
+		GLOBAL.modelsSeq[model.name]=model;
+		console.log('file read : '+file);
+	});
+//CREATION DE L'ASSOCIATION
+GLOBAL.modelsSeq["companies"].belongsTo(GLOBAL.modelsSeq["countries"],{
+	foreignKey:"country_code",
+	keyType:GLOBAL.db.Sequelize.STRING
+});
+	
 //Controleurs dynamiques
 GLOBAL.actions_json = JSON.parse(fs.readFileSync('./routes/config_actions.json','utf-8'));
 
